@@ -64,7 +64,7 @@ export default function PhaseHeader({ data, nextRefreshSeconds, apiAgeSeconds }:
         </Stat>
         <Stat label="Total miners">
           <span className="font-mono">{subnet?.total_miners ?? "—"}</span>
-          <span className="dim ml-1">/ {subnet?.validator_count ?? 0}v</span>
+          <span className="dim ml-1">/ {meta?.validator_count ?? subnet?.validator_count ?? 0}v</span>
         </Stat>
       </div>
 

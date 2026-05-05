@@ -11,11 +11,12 @@ export default function ValidatorPanel({ data }: { data: LeaderboardResponse | u
     { refreshInterval: REFRESH_MS, revalidateOnFocus: false, keepPreviousData: true }
   );
 
-  const subnet = data?.data.subnet;
-  const validator = data?.data.validator as { mode?: string; payload_versions?: string[] } | null | undefined;
+  const validator = data?.data.validator as { mode?: string; uid?: number | null; hotkey?: string | null } | null | undefined;
   const meta = data?.meta;
 
-  const total = subnet?.validator_count ?? 0;
+  // Use gateway-tracked validator counts (meta.*), NOT data.subnet.validator_count
+  // (the latter is on-chain validator count which may differ from gateway tracking).
+  const total = meta?.validator_count ?? 0;
   const polled = meta?.polled_validator_count ?? 0;
   const contributing = meta?.contributing_validators ?? [];
   const missing = meta?.missing_validators ?? [];
@@ -30,36 +31,38 @@ export default function ValidatorPanel({ data }: { data: LeaderboardResponse | u
 
   return (
     <section className="mt-10 pt-6 border-t border-ink-100">
-      <div className="flex items-baseline justify-between mb-4">
+      <div className="flex items-baseline justify-between mb-4 gap-3 flex-wrap">
         <h2 className="text-xs uppercase tracking-wider dim">Validators</h2>
         <div className="text-xs font-mono dim">
-          {meta?.served_from ?? "—"} · {validator?.mode ?? ""}
+          {meta?.served_from ? `served from: ${meta.served_from}` : ""}
+          {validator?.mode ? ` · mode: ${validator.mode}` : ""}
         </div>
       </div>
 
-      {/* Top row: validator count summary */}
+      {/* Top row: validator count summary (all from meta — these reflect gateway state) */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Cell
-          label="Total"
+          label="Tracked"
           value={total}
-          hint="validators registered on subnet"
+          hint="validators the gateway is polling"
         />
         <Cell
-          label="Active"
+          label="Polled"
           value={polled}
-          accent={allActive ? "ok" : polled > 0 ? "warn" : "down"}
-          hint="responded to last gateway poll"
+          accent={total > 0 && polled === total ? "ok" : polled > 0 ? "warn" : "down"}
+          hint="responded to most recent gateway poll"
         />
         <Cell
           label="Contributing"
           value={contributing.length}
-          hint="validators in this leaderboard payload"
+          accent={allActive ? "ok" : contributing.length > 0 ? "warn" : "down"}
+          hint="provided data in this payload"
         />
         <Cell
           label="Missing"
           value={missing.length}
           accent={missing.length > 0 ? "warn" : "ok"}
-          hint="validators not responding"
+          hint="known but unreachable"
         />
       </div>
 
