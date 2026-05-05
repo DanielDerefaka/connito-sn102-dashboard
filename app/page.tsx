@@ -3,6 +3,7 @@
 import PhaseHeader from "@/components/PhaseHeader";
 import Leaderboard from "@/components/Leaderboard";
 import NetworkHealth from "@/components/NetworkHealth";
+import TopPodium from "@/components/TopPodium";
 import { useLeaderboard } from "@/lib/useLeaderboard";
 
 export default function HomePage() {
@@ -81,6 +82,7 @@ export default function HomePage() {
         </div>
       ) : null}
 
+      <TopPodium miners={miners} />
       <Leaderboard miners={miners} />
       <NetworkHealth />
 
