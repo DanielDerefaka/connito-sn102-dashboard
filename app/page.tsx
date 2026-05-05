@@ -2,7 +2,7 @@
 
 import PhaseHeader from "@/components/PhaseHeader";
 import Leaderboard from "@/components/Leaderboard";
-import NetworkHealth from "@/components/NetworkHealth";
+import ValidatorPanel from "@/components/ValidatorPanel";
 import TopPodium from "@/components/TopPodium";
 import { useLeaderboard } from "@/lib/useLeaderboard";
 
@@ -84,7 +84,7 @@ export default function HomePage() {
 
       <TopPodium miners={miners} />
       <Leaderboard miners={miners} />
-      <NetworkHealth />
+      <ValidatorPanel data={data} />
 
       <footer className="mt-16 pt-6 border-t border-ink-100 text-xs dim font-mono flex items-center justify-between">
         <span>

@@ -183,9 +183,15 @@ export default function Leaderboard({ miners }: { miners: Miner[] }) {
           </tbody>
         </table>
       </div>
-      <p className="mt-4 text-xs dim">
-        ranked by score this round · click row for details
-      </p>
+      <div className="mt-4 text-xs dim flex items-baseline gap-3 flex-wrap">
+        <span>ranked by score this round · click row for details</span>
+        <span className="font-mono">
+          score: <span className="text-ink">2.25</span> #1 ·{" "}
+          <span className="text-ink">1.5</span> #2 ·{" "}
+          <span className="text-ink">1.0</span> #3 · 0 otherwise (rank-bucketed
+          per round, EMA over 8 rounds drives chain weight)
+        </span>
+      </div>
     </div>
   );
 }
