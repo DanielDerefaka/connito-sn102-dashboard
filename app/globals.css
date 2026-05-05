@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0a0a0a;
+  --paper: #ffffff;
+  --line: #e5e5e5;
+  --muted: #737373;
+}
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-feature-settings: "ss01", "cv11", "tnum";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: #0a0a0a; color: #ffffff; }
+
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* subtle row hover for list */
+tr.row-link:hover { background: #fafafa; }
+tr.row-link { transition: background-color 80ms ease; }
+
+/* delta colors — minimal accents */
+.pos { color: #057a55; }
+.neg { color: #b91c1c; }
+.dim { color: var(--muted); }
+
+/* live indicator */
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #0a0a0a;
+  margin-right: 6px;
+  vertical-align: middle;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
